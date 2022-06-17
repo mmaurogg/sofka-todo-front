@@ -1,4 +1,5 @@
-import {getAllLists, getList, updateList, deleteList, setList, searchHeros} from "./js/services.js";
+import {getAllLists, getList, updateList, deleteList, setList } from "./js/listService.js";
+import { setToDo } from "./js/toDoService.js";
 
 const listContainer = document.getElementById('list-container')
 
@@ -11,7 +12,7 @@ const listTrigger = document.getElementById('btn-add-task')
 if (listTrigger) {
   listTrigger.addEventListener('click', () => {
     let cont = 0;
-    setList("Add Title of the list"+ cont++)
+    setList("Ingrese el tíyulo de la lista"+ cont++)
 
 
     // listContainer.append(row('Nice, you triggered this alert message!', 'success'));
@@ -44,20 +45,20 @@ document.addEventListener("click", (event) => {
                 updateList(id, title)
             }
             
-        })
-        
+        })    
     }
+
+    if (event.target.matches(".btn-add-todo")) {
+        setToDo( event.target.parentNode.id ,"Ingrese un To Do")
+
+        console.log(event.target.parentNode.id)
+
+    }
+
 })
 
 
-// const toDoTrigger = document.getElementById('btn-add-ToDo')
-// if (listTrigger) {
-//   toDoTrigger.addEventListener('click', () => {
-    
 
-//       .append(row(id, 'Nice, you triggered this alert message!', 'success'));
-//   })
-// }
 
 
 
