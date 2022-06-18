@@ -60,7 +60,7 @@ const setToDo = async (idList, toDo) => {
  * @param {*} list información del To Do en formato json
  */
 const updateToDo = async (id, listId, title, finish) => {
-
+    console.log("hola");
     let options = {
         method: 'POST',
         headers: {
@@ -75,10 +75,7 @@ const updateToDo = async (id, listId, title, finish) => {
     }
 
     await fetch(URL + id, options)
-    .catch((error) => {
-        let message = error.statusText || "Ocurrió un error al cargar";
-        alert(`Error ${error.status}: ${message}`);
-    })
+
 
     location.reload();
 }

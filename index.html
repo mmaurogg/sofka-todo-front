@@ -22,6 +22,30 @@
     </div>
 
 
+    <template id="list-template">
+
+        <div class="alert alert-success alert-dismissible" role="alert">
+               <input type="text" id="title" name="title" class="border-0 bg-transparent w-75" placeholder="">
+               <button type="button" class="btn-add-todo border-0 bg-transparent float-end">&#10133</button>
+               <button type="button" class="btn-close" id="btn-delete-list" aria-label="Close"></button>
+            <div class="toDo" id="toDos"> </div>
+        </div>
+
+    </template>
+
+    <template id="toDo-template">
+
+        <li class="list-group-item">
+            <form class="alert alert-success alert-dismissible border-0 " role="alert">
+                <input class="checkbox" type="checkbox" name="finish" id="finish" value="done">
+                <input type="text" id="toDo" name="todo" class="toDo border-0 bg-transparent w-75">
+                <button type="button" class="btn-delete-toDo btn-close" aria-label="Close"></button>
+            </form> 
+        </li>
+
+
+    </template>
+
 
 
 </body>

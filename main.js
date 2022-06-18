@@ -8,13 +8,14 @@ const listContainer = document.getElementById('list-container')
  */
 document.addEventListener("DOMContentLoaded", getAllLists);
 
+
 /**
  * Función para agregar nuevas listas al documento
  */
 const listTrigger = document.getElementById('btn-add-task')
 if (listTrigger) {
     listTrigger.addEventListener('click', () => {
-        setList("Ingrese un título")
+        setList("Ingrese un título");
 
     })
 }
@@ -75,6 +76,7 @@ document.addEventListener("click", (event) => {
 
     // update To Do
     if (event.target.matches(".toDo")) {
+
         document.addEventListener("keypress", (key) => {
             if (key.charCode === 13) {
 

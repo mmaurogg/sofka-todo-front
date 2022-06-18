@@ -1,4 +1,7 @@
-const listContainer = document.getElementById('list-container')
+const listContainer = document.getElementById('list-container');
+const templateList = document.querySelector("#list-template").content;
+const templateToDo = document.querySelector("#toDo-template").content;
+const fragment = document.createDocumentFragment();
 
 const URL = "http://localhost:8080/list/";
 
@@ -14,14 +17,16 @@ const getAllLists = async () => {
             console.log(json);
 
             json.forEach((list) => {
-                const newList = row(list);
-                listContainer.append(newList);
+                let clone = document.importNode(row(list),true);
+                fragment.append(clone);
+                listContainer.append(fragment);
                 
                 const ul = document.createElement('ul');
 
                 list.toDos.forEach((toDo) => {
-                    const li = todoTrigger(toDo, list.id)
-                    ul.append(li);
+                    let clone2 = document.importNode(todoTrigger(toDo, list.id),true);
+                    fragment.append(clone2);
+                    ul.append(fragment);
                 });
 
                 const containerToDos = document.getElementById(`toDos-${list.id}`) 
@@ -121,52 +126,42 @@ const updateList = async (id, title) => {
     }
 
     await fetch(URL + id, options)
-    .catch((error) => {
-        let message = error.statusText || "Ocurrió un error al cargar";
-        alert(`Error ${error.status}: ${message}`);
-    })
+
+    location.reload();
+
 }
 
 /**
  * Función para llenar el elemento lista
  * @param {*} list es la lista en formato json
- * @param {*} type es el tipo de alert o eviso para mostrar
- * @returns elementos html para insertar en el index
+ * @returns elementos html del template para insertar en el index
  */
-const row = (list, type = "success") => {
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = [
-        `<div class="alert alert-${type} alert-dismissible" id="${list.id}" role="alert">`,
-        `   <input type="text" id="title" name="title" class="border-0 bg-transparent w-75" placeholder="${list.title}">`,
-        '   <button type="button" class="btn-add-todo border-0 bg-transparent float-end" "data-bs-dismiss="alert" aria-label="">&#10133</button>',
-        '   <button type="button" class="btn-close" id="btn-delete-list" aria-label="Close"></button>',
-        `<div class="toDo" id="toDos-${list.id}"> </div>`,
-        '</div>'
-    ].join('')
+const row = (list) => {
+    
+    templateList.querySelector("#title").placeholder = list.title || "Ingrese una tarea";
+    templateList.querySelector(".toDo").id = "toDos-"+list.id;
+    templateList.querySelector(".alert").id = list.id;
 
-    return wrapper;
+    return templateList;
 }
 
 /**
  * unción para llenar el elemento To Do dentro de una lista
  * @param {*} toDo Título de la tarea en formato string
  * @param {*} listId lista a la cual pertenece el To Do
- * @param {*} type es el tipo de alert o eviso para mostrar
- * @returns elementos html para insertar en el index
+ * @returns elementos html del template para insertar en el index
  */
-const todoTrigger = (toDo, listId, type = "success") => {
-        const wrapper = document.createElement('li')
-        wrapper.className = "list-group-item"
-        wrapper.innerHTML = [
-            `<form class="alert alert-${type} alert-dismissible border-0 " id="${listId}" role="alert">`,
-            `   <input class="checkbox" type="checkbox" name="finish" id="check-${toDo.id}" value="done">`,
-            `   <input type="text" id="${toDo.id}" name="todo" class="toDo border-0 bg-transparent w-75" placeholder="${toDo.toDo}">`,
-            `   <button type="button" class="btn-delete-toDo btn-close" id="${toDo.id}" aria-label="Close"></button>`,
-            '</form>'
-        ].join('')
-    
-        return wrapper;
+const todoTrigger = (toDo, listId,) =>{
+    templateToDo.querySelector("form").id = listId;
+    templateToDo.querySelector(".checkbox").id = "check-"+toDo.id;
+    templateToDo.querySelector(".toDo").id = toDo.id;
+    templateToDo.querySelector(".toDo").placeholder = toDo.toDo;
+    templateToDo.querySelector(".btn-close").id = toDo.id;
 
-};
+    return templateToDo;
+}
 
 export { getAllLists, getList, updateList, deleteList, setList};
+
+
+
